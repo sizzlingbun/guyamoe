@@ -358,6 +358,10 @@ function SettingsHandler(){
 		return true;
 	}
 
+	this.getByAddr() {
+		
+	}
+
 	this.get = function(settingID){
 		return this.all[settingID].get();
 	}
@@ -2234,7 +2238,6 @@ function UI_Loda_Search(o) {
 
 }
 
-
 function UI_IndexSearch(o) {
 	o=be(o);
 	UI_Tabs.call(this, {
@@ -2340,6 +2343,7 @@ function UI_IndexSearch(o) {
 		// 'quickText': this.clear
 	})
 }
+
 function UI_MangaSearch(o) {
 	o=be(o);
 	UI_Tabs.call(this, {
@@ -2440,6 +2444,31 @@ function UI_ChapterUnit(o) {
 	}
 }
 
+function UI_Loda_Setting(o) {
+	o=be(o);
+	UI_Loda.call(this, {
+		node: o.node,
+		kind: ['Loda_Settings'].concat(o.kind || []),
+		name: 'Settings',
+		html: o.html || ``
+	});
+	this.manager = o.manager;
+	this.name = 'Settings';
+	this.focusElement = this._.input;
+	this.content = new UI_ContainerList({
+		node: this._.content
+	});
+
+	this.tabs = new UI_Tabs({
+			node: this._.tabs
+		})
+		.S.link(this.content);
+	this.tabs.select(0);
+}
+
+
+
+
 function firstPartySeriesHandler(mediaURL, chapter, group, slug) {
 	for (let i = 0; i < chapter.groups[group].length; i++) {
 		chapter.images[group].push(
@@ -2524,6 +2553,9 @@ Loader = new LoadHandler();
 URL = new URLChanger();
 Loda = new UI_LodaManager({
 	node: document.querySelector('.LodaManager'),
+});
+Loda = new UI_Loda_Setting({
+	node: document.querySelector('.Loda_Settings'),
 });
 
 API.S.link(Reader);
